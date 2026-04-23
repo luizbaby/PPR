@@ -597,7 +597,7 @@ async function loadData() {
   document.getElementById('errorMsg').classList.remove('active');
   let data = FALLBACK;
   try {
-    const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv&sheet=${encodeURIComponent(SHEET_NAME)}`;
+    const url = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTMkfvgmovKj24X7nQl0jT1egdqOC4HhABtMhrQchjJ5ADel-_T8_Z_DIYeLnQIng/pub?gid=434821545&single=true&output=csv';
     const res = await fetch(url);
     if (res.ok) {
       const parsed = parseCSV(await res.text());

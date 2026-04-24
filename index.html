@@ -532,12 +532,22 @@ const FALLBACK = {
   ],
 };
 
-let prev = {
-  sGeral:null, gGeral:null,
-  sVarejo:null, gVarejo:null,
-  sRevenda:null, gRevenda:null,
-  saldoStamp:null, saldoGold:null,
-};
+const STORAGE_KEY = 'ppr2026_prev';
+
+function loadPrev() {
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (saved) return JSON.parse(saved);
+  } catch(e) {}
+  return { sGeral:null, gGeral:null, sVarejo:null, gVarejo:null,
+           sRevenda:null, gRevenda:null, saldoStamp:null, saldoGold:null };
+}
+
+function savePrev(obj) {
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(obj)); } catch(e) {}
+}
+
+let prev = loadPrev();
 
 const fmt = v => v == null ? '—' : new Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL',maximumFractionDigits:2}).format(v);
 const fmtShort = v => {
@@ -744,6 +754,7 @@ function render(data) {
     saldoStamp: prev._nextSaldoStamp ?? null,
     saldoGold:  prev._nextSaldoGold  ?? null,
   };
+  savePrev(prev);
 
   // ── Cálculo de dias úteis ───────────────────────────────────────────
   // Feriados nacionais BR 2026 (formato YYYY-MM-DD)
